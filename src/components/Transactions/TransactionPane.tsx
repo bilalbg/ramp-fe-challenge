@@ -1,13 +1,15 @@
 import { useState } from "react"
 import { InputCheckbox } from "../InputCheckbox"
 import { TransactionPaneComponent } from "./types"
+import { useCustomFetch } from "src/hooks/useCustomFetch";
 
 export const TransactionPane: TransactionPaneComponent = ({
   transaction,
   loading,
   setTransactionApproval: consumerSetTransactionApproval,
 }) => {
-  const [approved, setApproved] = useState(transaction.approved)
+  const { clearCache } = useCustomFetch();
+  const [approved, setApproved] = useState(transaction.approved);
 
   return (
     <div className="RampPane">
@@ -28,7 +30,8 @@ export const TransactionPane: TransactionPaneComponent = ({
             newValue,
           })
 
-          setApproved(newValue)
+          await clearCache();
+          setApproved(newValue);
         }}
       />
     </div>
